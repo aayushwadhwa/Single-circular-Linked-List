@@ -1,0 +1,61 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+struct node {
+    int data;
+    node *next;
+    int i;                                    // to keep the track from where circular linked list starts
+    };
+
+node* insert(node *head,int data){           // Inserting an element
+    node *temp = new node();
+    temp->data = data;
+    temp->next = NULL;
+    temp->i = 0;
+    if(head == NULL){
+        head = temp;
+        return head;
+        }
+    node *temp1 = head;
+    while(temp1->next != NULL){
+        temp1 = temp1->next;
+        }
+    temp1->next = temp;
+    return head;
+    }
+
+void print(node *head){                         // print the elements in the list
+    node *temp = head;
+    while(temp != NULL){
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+}
+node *makeCircular(node *head,int n){           //making a list circular starting from number n
+    node *temp = head;
+    while(temp->data != n) temp = temp->next;
+    node *temp2 = temp;
+    while(temp2->next != NULL) temp2=temp2->next;
+    temp2->next = temp;
+    return head;
+}
+void checkFirstNode(node* head){                // to check the starting of circular linked list
+    while(++(head->i) != 2){
+        head = head->next;
+    }
+    cout << head->data;
+}
+int main()
+{
+    node *head = NULL;
+    head = insert(head,5);
+    head = insert(head,1);
+    head = insert(head,9);
+    head = insert(head,2);
+    head = insert(head,6);
+    head = makeCircular(head,1);
+    checkFirstNode(head);
+    //print(head);
+    return 0;
+}
